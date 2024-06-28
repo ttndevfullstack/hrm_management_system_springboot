@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns:th = "http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>departments-list</title>
+	<link th:replace = "layouts :: stylish" />
+</head>
+
+<body>
+	
+	<div th:replace = "layouts :: navbar"></div>
+	<br><br><br><br><br>
+	
+	<div class='container container-fluid'>
+		
+		<br><br>
+		
+		<div th:switch="${departments}">
+	    <h2 th:case="null">No Departments yet!</h2>
+	        <div th:case="*">
+	        	<h2 th:text = '${size}' ></h2>  <br>
+	            <table class="table table-striped table-hover ">
+	                <thead>
+	                    <tr>
+	                        <th>Name</th>
+	                        <th>Location</th>
+	                        <th class='text-warning'><i>=>Edit</i></th>
+	                        <!--<th class='text-warning'>=>Delete</th>-->
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                <tr th:each = "d : ${departments}">
+	                    <td th:text="${d.dname}"></td>
+	                    <td th:text="${d.loc}"></td>
+	                    <td><a class='btn btn btn-outline-success' th:href="@{/app/departments/departments-edit(id=${d.deptno})}">Edit</a></td>
+	                    <!--<td><a class='btn btn btn-outline-danger' th:href="@{/app/departments/departments-delete(id=${d.deptno})}" onClick="if (!(confirm('Are you sure you want to delete this department?'))) return false" >Delete</a></td>-->
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>      
+	    <h4><a th:href="@{/app/departments/departments-add}">Add a new department</a></h4>
+	</div>
+
+	</div>
+	
+	<br><br><br><br><br>
+	
+</body>
+</html>
+
+
+
+
+
+
+
