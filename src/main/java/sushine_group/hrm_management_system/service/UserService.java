@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sushine_group.hrm_management_system.Role;
+import sushine_group.hrm_management_system.model.Dtos.UserDto;
 import sushine_group.hrm_management_system.model.User;
 import sushine_group.hrm_management_system.repository.IRoleRepository;
 import sushine_group.hrm_management_system.repository.IUserRepository;
@@ -23,12 +24,20 @@ public class UserService implements UserDetailsService {
     private IUserRepository userRepository;
     @Autowired
     private IRoleRepository roleRepository;
-    // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
-    public void save(@NotNull User user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+
+    public void save(UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPhone(userDto.getPhone());
+
+        // Encode the raw password before setting it
+        String encodedPassword = new BCryptPasswordEncoder().encode(userDto.getPassword());
+        user.setPassword(encodedPassword);
+
         userRepository.save(user);
     }
-    // Gán vai trò mặc định cho người dùng dựa trên tên người dùng.
+
     public void setDefaultRole(String username) {
         userRepository.findByUsername(username).ifPresentOrElse(
                 user -> {

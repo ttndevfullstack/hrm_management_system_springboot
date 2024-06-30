@@ -54,14 +54,18 @@
             <h1>Register</h1>
             <p>How to I get started lorem ipsum dolor at?</p>
             <form th:action="@{/register}" method="post" style="display: flex; flex-direction: column;">
-                <input type="text" name="username" placeholder=" Enter Username" autocomplete="username" required>
-                <br>
-                <input type="text" name="phone" placeholder=" Enter Phone" autocomplete="phone" required>
-                <br>
+                <input type="text" name="username" placeholder=" Enter username" autocomplete="username" required>
+                <input type="text" name="email" placeholder=" Enter email" autocomplete="email" required>
+                <input type="text" name="phone" placeholder=" Enter phone" autocomplete="phone" required>
                 <div style="position: relative; width: 100%;">
-                    <input id="password" type="password" name="MatKhau" placeholder="Enter Password" style="width: 100%;" autocomplete="password" required />
-                    <img id="toggle-password" src="/images/eye-password-hide.svg" class="position-absolute top-50 start-100 translate-middle"
-                         style="cursor: pointer; position: absolute; top: 22px; right: 13px; transform: translateY(-50%); width: 17px;">
+                    <input id="password" type="password" name="password" placeholder="Enter password" style="width: 100%;" autocomplete="password" required />
+                    <img id="toggle-password" src="/images/eye-password-hide.svg"
+                         style="
+                            position: absolute;
+                            top: 50%;
+                            right: 10px;
+                            toggle-password
+                            transform: translateY(-80%); width: 17px;">
                 </div>
                 <div class="remember-me">
                     <div class="d-flex align-items-center justify-content-center gap-2">
@@ -72,12 +76,11 @@
                 <button type="submit" class="btn-login">Register</button>
             </form>
             <div class="login-with-others">
-                <p><strong>Login</strong> with Others:</p>
+                <span><strong>Login</strong> with Others:</span>
                 <a class="google-btn" href="#" target="_blank">
                     <img src="/images/google-logo.png" alt="Google">
                     <span style="margin-top: 5px;">Login with <strong>Google</strong></span>
                 </a>
-                <br>
                 <a  class="facebook-btn" href="#">
                     <img src="/images/facebook-logo.png" alt="Facebook">
                     <span style="margin-top: 5px;">Login with <strong>Facebook</strong></span>

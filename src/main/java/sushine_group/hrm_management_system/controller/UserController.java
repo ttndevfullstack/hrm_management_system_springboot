@@ -3,14 +3,13 @@ package sushine_group.hrm_management_system.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import sushine_group.hrm_management_system.model.Dtos.UserDto;
 import sushine_group.hrm_management_system.model.User;
 import sushine_group.hrm_management_system.service.UserService;
 
@@ -19,7 +18,13 @@ import sushine_group.hrm_management_system.service.UserService;
 @RequiredArgsConstructor
 public class UserController {
 
+    @Autowired
     private UserService userService;
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "/dashboard";
+    }
 
     @GetMapping("/login")
     public String login() {
@@ -28,24 +33,14 @@ public class UserController {
     
     @GetMapping("/register")
     public String register(@NotNull Model model) {
-        model.addAttribute("user", new User()); // Thêm một đối tượng User mới vào model
+        model.addAttribute("user", new User());
         return "users/register";
     }
-    @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("user") User user, // Validate đối tượng User
-                                   @NotNull BindingResult bindingResult, // Kết quả của quá trình validate
-                                    Model model) {
-        if (bindingResult.hasErrors()) { // Kiểm tra nếu có lỗi validate
-            var errors = bindingResult.getAllErrors()
-                    .stream()
 
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toArray(String[]::new);
-            model.addAttribute("errors", errors);
-            return "users/register"; // Trả về lại view "register" nếu có lỗi
-        }
-        userService.save(user); // Lưu người dùng vào cơ sở dữ liệu
-        userService.setDefaultRole(user.getUsername()); // Gán vai trò mặc định cho người dùng
-        return "redirect:/login"; // Chuyển hướng người dùng tới trang "login"
+    @PostMapping("/register")
+    public String register(@ModelAttribute UserDto userDto) {
+        userService.save(userDto);
+        userService.setDefaultRole(userDto.getUsername());
+        return "redirect:/login";
     }
 }
