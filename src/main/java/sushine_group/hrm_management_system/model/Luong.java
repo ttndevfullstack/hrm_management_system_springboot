@@ -23,11 +23,11 @@ public class Luong {
     @MapsId("idNV")
     @JoinColumn(name = "IDNV")
     private NhanVien nhanVien;
-    @Override
+    /*@Override
     public String toString() {
         return "Luong{" +
                 "id=" + id +
                 ", thanhTien=" + thanhTien +
                 '}';
-    }
+    }*/
 }
