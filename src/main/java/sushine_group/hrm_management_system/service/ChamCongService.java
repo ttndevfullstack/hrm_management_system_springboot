@@ -40,26 +40,6 @@ public class ChamCongService {
         this.luongRepository = luongRepository;
     }
 
-    /*@Transactional
-    public void importChamCongDataFromExcel(MultipartFile file) throws IOException, ParseException {
-        List<ChamCong> chamCongList = readChamCongFromExcel(file.getInputStream());
-
-        for (ChamCong chamCong : chamCongList) {
-            // Fetch NhanVien by ID and set it to ChamCong
-            String idNV = chamCong.getId().getIdNV(); // Assuming getIdNV() returns employee ID as string
-            NhanVien nhanVien = nhanVienRepository.findById(idNV).orElse(null);
-
-            if (nhanVien == null) {
-                // Handle case where NhanVien with given ID is not found
-                // For example, log an error, skip this entry, or throw an exception
-                continue;
-            }
-
-            chamCong.setNhanVien(nhanVien);
-        }
-
-        chamCongRepository.saveAll(chamCongList);
-    }*/
 
     @Transactional
     public List<ChamCong> importChamCongDataFromExcel(MultipartFile file) throws IOException, ParseException {
@@ -115,18 +95,12 @@ public class ChamCongService {
                 if (dateCell.getCellType() == CellType.NUMERIC) {
                     if (DateUtil.isCellDateFormatted(dateCell)) {
                         ngayLamViec = dateCell.getDateCellValue();
-                    } else {
-                        // Handle non-date numeric value if necessary
-                        // Example: ngayLamViec = handleNonDateNumericValue(dateCell.getNumericCellValue());
                     }
                 } else if (dateCell.getCellType() == CellType.STRING) {
                     ngayLamViec = dateFormat.parse(dateCell.getStringCellValue());
                 }
             }
-            if (ngayLamViec == null) {
-                // Handle case where date is null or invalid
-                // Example: throw new ParseException("Invalid date format", 0);
-            }
+
 
             // Convert date to month and year integer format
             int monthYear = Integer.parseInt(monthYearFormat.format(ngayLamViec));
@@ -182,12 +156,11 @@ public class ChamCongService {
             }
 
             luong.setThanhTien(salary);
-            luongRepository.save(luong); // Save or update the Luong entity
+            luongRepository.save(luong);
         }
     }
     private BigDecimal calculateTax(BigDecimal salary) {
-        // Placeholder tax calculation logic, implement actual tax logic based on Vietnam's tax regulations
-        BigDecimal taxRate = BigDecimal.valueOf(0.1); // Example: 10% tax
+        BigDecimal taxRate = BigDecimal.valueOf(0.1); // 10% tax
         return salary.multiply(taxRate);
     }
 }

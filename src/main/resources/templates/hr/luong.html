@@ -42,9 +42,9 @@
                 <thead class="table-dark">
                 <tr>
                     <th>IDNV</th>
-                    <th> Họ Tên </th>
+                    <th>Họ Tên</th>
                     <th>Thành Tiền</th>
-                    <th> Ngày Xuất </th>
+                    <th>Thoi Gian</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,7 +52,7 @@
                     <td th:text="${luong.id.idNV}">IDNV</td>
                     <td th:text="${luong.nhanVien != null ? luong.nhanVien.hoDem + ' ' + luong.nhanVien.ten : 'Unknown'}"></td>
                     <td th:text="${#numbers.formatDecimal(luong.thanhTien, 0, 'COMMA', 0, 'POINT')}">Thành Tiền</td>
-                    <td th:text="${#dates.format(luong.thangNam, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#dates.format(luong.thangNam, 'MM/yyyy')}"></td>
                 </tr>
                 </tbody>
             </table>

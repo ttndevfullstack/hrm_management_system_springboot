@@ -33,24 +33,7 @@ public class ChamCongController {
         model.addAttribute("selectedDate", LocalDate.now());
         return "hr/chamcong";
     }
- /*   @GetMapping("/list")
-    public String listChamCong(Model model) {
-        List<ChamCong> listChamCong = chamCongService.getAllChamCong(); // Fetch from service
-        model.addAttribute("listChamCong", listChamCong);
-        model.addAttribute("selectedDate", LocalDate.now());
-        return "hr/chamcong"; // Thymeleaf template name
-    }
-*/
- /*@GetMapping("/list")
- public String listChamCong(@RequestParam("selectedMonth") String selectedMonth, Model model) {
-     // Convert String to YearMonth
-     YearMonth yearMonth = YearMonth.parse(selectedMonth, DateTimeFormatter.ofPattern("yyyy-MM"));
 
-     // Call service method with YearMonth
-     List<ChamCong> listChamCong = chamCongService.getChamCongByMonth(yearMonth);
-     model.addAttribute("listChamCong", listChamCong);
-     return "hr/chamcong";
- }*/
  @GetMapping("/list")
  public String listChamCong(@RequestParam(value = "selectedMonth", required = false) String selectedMonth, Model model) {
      YearMonth yearMonth;
@@ -70,22 +53,7 @@ public class ChamCongController {
          }
      }
 
-    /*@PostMapping("/upload")
-    public String uploadChamCongFile(@RequestParam("file") MultipartFile file, Model model) {
-        try {
-            chamCongService.importChamCongDataFromExcel(file);
-            chamCongService.updateSalary();
-            model.addAttribute("message", "File uploaded successfully!");
 
-        } catch (IOException e) {
-            model.addAttribute("message", "Failed to upload file: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("message", "Error in data: " + e.getMessage());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return "redirect:/chamcong/list"; // Redirect to hr/chamcong upon successful upload
-    }*/
     @PostMapping("/upload")
     public String uploadChamCongFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
