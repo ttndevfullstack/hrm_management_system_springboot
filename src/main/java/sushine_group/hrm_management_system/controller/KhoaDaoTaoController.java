@@ -7,9 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import sushine_group.hrm_management_system.model.KhoaDaoTao;
 import sushine_group.hrm_management_system.model.NhanVien;
 import sushine_group.hrm_management_system.model.User;
@@ -20,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import sushine_group.hrm_management_system.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -38,12 +37,19 @@ public class KhoaDaoTaoController {
     @GetMapping
     public String listKhoaDaoTaos(Model model,
                                   @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(value = "keyword", required = false) String keyword,
                                   HttpSession session,
                                   Authentication authentication) {
         int pageSize = 5; // Số lượng bản ghi trên mỗi trang
         PageRequest pageable = PageRequest.of(page - 1, pageSize);
         Page<KhoaDaoTao> khoaDaoTaoPage = khoaDaoTaoService.getAllKhoaDaoTaos(pageable);
 
+        if (keyword != null && !keyword.isEmpty()) {
+            khoaDaoTaoPage = khoaDaoTaoService.searchKhoaDaoTaos(keyword, pageable);
+            model.addAttribute("keyword", keyword);
+        } else {
+            khoaDaoTaoPage = khoaDaoTaoService.getAllKhoaDaoTaos(pageable);
+        }
         // Lấy thông tin nhân viên từ session
         User currentUser = userService.getCurrentUser(); // Lấy người dùng hiện tại
         if (currentUser == null) {
@@ -62,5 +68,22 @@ public class KhoaDaoTaoController {
         model.addAttribute("nhanVienId", nhanVien.getId());
 
         return "khoadaotao/khoaDaoTao-list"; // tên của file HTML template
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") int id, Model model) {
+        Optional<KhoaDaoTao> optionalKhoaDaoTao = khoaDaoTaoService.getKhoaDaoTaoById(id);
+        if (optionalKhoaDaoTao.isPresent()) {
+            model.addAttribute("khoaDaoTao", optionalKhoaDaoTao.get());
+            return "khoaDaoTao/khoaDaoTao-edit";
+        } else {
+            return "redirect:/error";
+        }
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteKhoaDaoTao(@PathVariable("id") int id) {
+        khoaDaoTaoService.deleteKhoaDaoTaoById(id);
+        return "redirect:/khoaDaoTaos";
     }
 }

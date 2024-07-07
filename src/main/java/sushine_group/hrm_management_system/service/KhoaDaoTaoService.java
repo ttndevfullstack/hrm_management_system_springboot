@@ -44,4 +44,8 @@ public class KhoaDaoTaoService {
         return khoaDaoTaoRepository.existsById(id);
     }
 
+    // Tìm kiếm khóa đào tạo theo từ khóa
+    public Page<KhoaDaoTao> searchKhoaDaoTaos(String keyword, Pageable pageable) {
+        return khoaDaoTaoRepository.findByTenKhoaContainingIgnoreCaseOrMoTaContainingIgnoreCase(keyword, keyword, pageable);
+    }
 }
