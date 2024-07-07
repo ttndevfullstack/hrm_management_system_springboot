@@ -1,8 +1,11 @@
 package sushine_group.hrm_management_system.service;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +25,12 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     @Autowired
     private IUserRepository userRepository;
+
     @Autowired
     private IRoleRepository roleRepository;
+
+    @Autowired
+    private HttpSession session;
 
     public void save(UserDto userDto) {
         User user = new User();
@@ -67,5 +74,17 @@ public class UserService implements UserDetailsService {
     public Optional<User> findByUsername(String username) throws
             UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userRepository.findByUsername(username).orElse(null);
+    }
+
+    public String getCurrentNhanVienId() {
+        String nhanVienId = (String) session.getAttribute("nhanVienId");
+        System.out.println("NhanVienId from session: " + nhanVienId);  // Ghi log
+        return nhanVienId;
     }
 }
