@@ -102,6 +102,16 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IDNV", referencedColumnName = "id")
+    private NhanVien nhanVien;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "TAIKHOAN_LOAITK",
+            joinColumns = @JoinColumn(name = "TAIKHOAN_ID"),
+            inverseJoinColumns = @JoinColumn(name = "LOAITK_ID"))
+    private Set<LoaiTK> loaiTKs = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> userRoles = this.getRoles();
