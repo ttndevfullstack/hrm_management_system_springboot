@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import sushine_group.hrm_management_system.model.ChamCong;
-import sushine_group.hrm_management_system.model.ChamCongId;
-import sushine_group.hrm_management_system.model.NhanVien;
+import sushine_group.hrm_management_system.model.*;
 import sushine_group.hrm_management_system.repository.ChamCongRepository;
+import sushine_group.hrm_management_system.repository.LuongRepository;
 import sushine_group.hrm_management_system.repository.NhanVienRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
@@ -27,18 +27,20 @@ public class ChamCongService {
 
     private final ChamCongRepository chamCongRepository;
     private final NhanVienRepository nhanVienRepository;
+    private final LuongRepository luongRepository;
 
     public List<ChamCong> getAllChamCong() {
         return chamCongRepository.findAll(); // Example method; adjust as per your repository
     }
 
     @Autowired
-    public ChamCongService(ChamCongRepository chamCongRepository, NhanVienRepository nhanVienRepository) {
+    public ChamCongService(ChamCongRepository chamCongRepository, NhanVienRepository nhanVienRepository,LuongRepository luongRepository) {
         this.chamCongRepository = chamCongRepository;
         this.nhanVienRepository = nhanVienRepository;
+        this.luongRepository = luongRepository;
     }
 
-    @Transactional
+    /*@Transactional
     public void importChamCongDataFromExcel(MultipartFile file) throws IOException, ParseException {
         List<ChamCong> chamCongList = readChamCongFromExcel(file.getInputStream());
 
@@ -57,6 +59,25 @@ public class ChamCongService {
         }
 
         chamCongRepository.saveAll(chamCongList);
+    }*/
+
+    @Transactional
+    public List<ChamCong> importChamCongDataFromExcel(MultipartFile file) throws IOException, ParseException {
+        List<ChamCong> chamCongList = readChamCongFromExcel(file.getInputStream());
+
+        for (ChamCong chamCong : chamCongList) {
+            String idNV = chamCong.getId().getIdNV();
+            NhanVien nhanVien = nhanVienRepository.findById(idNV).orElse(null);
+
+            if (nhanVien == null) {
+                // Handle case where NhanVien with given ID is not found
+                continue;
+            }
+
+            chamCong.setNhanVien(nhanVien);
+        }
+
+        return chamCongRepository.saveAll(chamCongList); // Save imported ChamCong entities and return the list
     }
 
     private List<ChamCong> readChamCongFromExcel(InputStream inputStream) throws IOException, ParseException {
@@ -130,5 +151,43 @@ public class ChamCongService {
         int year = selectedMonth.getYear();
         int month = selectedMonth.getMonthValue();
         return chamCongRepository.findByMonth(year, month);
+    }
+    @Transactional
+    public void updateSalary(List<ChamCong> chamCongList) {
+        for (ChamCong chamCong : chamCongList) {
+            NhanVien nhanVien = chamCong.getNhanVien();
+            ChucVu chucVu = nhanVien.getChucVu();
+            LuongId luongId = new LuongId(chamCong.getId().getId(), chamCong.getId().getIdNV());
+            Luong luong = luongRepository.findById(luongId).orElse(new Luong());
+
+            luong.setId(luongId);
+            luong.setNhanVien(nhanVien);
+            luong.setThangNam(chamCong.getThangNam());
+
+            BigDecimal luongCoBan = chucVu.getLuongCoBan();
+            BigDecimal heSoLuong = chucVu.getHeSoLuong();
+            BigDecimal phuCap = chucVu.getPhuCapChucVu();
+            int soNgayLam = chamCong.getSoNgayLam();
+            int soNgayNghi = chamCong.getSoNgayNghi();
+            int soLanTre = chamCong.getSoLanTre();
+
+            // Salary calculation
+            BigDecimal salary = luongCoBan.multiply(BigDecimal.valueOf(soNgayLam)).multiply(heSoLuong).add(phuCap);
+            BigDecimal tax = calculateTax(salary);
+            salary = salary.subtract(tax);
+
+            // Deduct 5% if total days off and late arrivals exceed 5
+            if (soNgayNghi + soLanTre > 5) {
+                salary = salary.subtract(salary.multiply(BigDecimal.valueOf(0.05)));
+            }
+
+            luong.setThanhTien(salary);
+            luongRepository.save(luong); // Save or update the Luong entity
+        }
+    }
+    private BigDecimal calculateTax(BigDecimal salary) {
+        // Placeholder tax calculation logic, implement actual tax logic based on Vietnam's tax regulations
+        BigDecimal taxRate = BigDecimal.valueOf(0.1); // Example: 10% tax
+        return salary.multiply(taxRate);
     }
 }

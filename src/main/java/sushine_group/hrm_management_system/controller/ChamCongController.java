@@ -70,13 +70,29 @@ public class ChamCongController {
          }
      }
 
-
-
-    @PostMapping("/upload")
+    /*@PostMapping("/upload")
     public String uploadChamCongFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
             chamCongService.importChamCongDataFromExcel(file);
+            chamCongService.updateSalary();
             model.addAttribute("message", "File uploaded successfully!");
+
+        } catch (IOException e) {
+            model.addAttribute("message", "Failed to upload file: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("message", "Error in data: " + e.getMessage());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/chamcong/list"; // Redirect to hr/chamcong upon successful upload
+    }*/
+    @PostMapping("/upload")
+    public String uploadChamCongFile(@RequestParam("file") MultipartFile file, Model model) {
+        try {
+            List<ChamCong> importedChamCongList = chamCongService.importChamCongDataFromExcel(file);
+            chamCongService.updateSalary(importedChamCongList); // Call updateSalary with the imported list
+            model.addAttribute("message", "File uploaded successfully!");
+
         } catch (IOException e) {
             model.addAttribute("message", "Failed to upload file: " + e.getMessage());
         } catch (IllegalArgumentException e) {
