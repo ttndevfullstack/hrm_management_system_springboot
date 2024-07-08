@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sushine_group.hrm_management_system.model.Employee;
+import sushine_group.hrm_management_system.model.NhanVien;
 import sushine_group.hrm_management_system.repository.EmployeeRepository;
+import sushine_group.hrm_management_system.repository.NhanVienRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +20,11 @@ import java.util.Optional;
 @RequestMapping(value = {"/employees"})
 public class EmployeeController {
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private NhanVienRepository employeeRepository;
 
 	@GetMapping(value = {"/list"})
 	public String displayEmployeesList(final Model model) {
-		List<Employee> employees = this.employeeRepository.findAll();
+		List<NhanVien> employees = this.employeeRepository.findAll();
 		model.addAttribute("size", employees.size() + " " + this.getClass().getSimpleName().replace("Controller", "") + "s");
 		model.addAttribute("employees", employees);
 		return "employees/employees-list";
@@ -35,14 +37,14 @@ public class EmployeeController {
 	}
 
 	@PostMapping(value = {"/add"})
-	public String handleEmployeeAdd(@ModelAttribute("employee") final Employee employee, final BindingResult error, final Model model) {
+	public String handleEmployeeAdd(@ModelAttribute("employee") final NhanVien employee, final BindingResult error, final Model model) {
 		
 		if (error.hasErrors()) {
 			System.err.println(error);
 			return "redirect:/app/employees/employees-list";
 		}
 		
-		Employee emp = this.employeeRepository.save(employee);
+		NhanVien emp = this.employeeRepository.save(employee);
 		System.err.println(emp);
 		model.addAttribute("msgColour", "success");
 		model.addAttribute("msg", "Employee saved successfully");
@@ -51,20 +53,20 @@ public class EmployeeController {
 
 	@GetMapping(value = {"/edit"})
 	public String displayEmployeesEdit(@RequestParam("id") final String id, final Model model) {
-		Optional<Employee> employee = this.employeeRepository.findById(Integer.parseInt(id));
+		Optional<NhanVien> employee = this.employeeRepository.findById(id);
 		model.addAttribute("employee", employee);
 		return "employees/employees-edit";
 	}
 
 	@PostMapping(value = {"/edit"})
-	public String handleEmployeesEdit(@ModelAttribute("employee") final Employee employee, final BindingResult error, final Model model) {
+	public String handleEmployeesEdit(@ModelAttribute("employee") final NhanVien employee, final BindingResult error, final Model model) {
 		
 		if (error.hasErrors()) {
 			System.err.println(error);
 			return "redirect:/app/employees/employees-list";
 		}
 		
-		final Employee emp = this.employeeRepository.save(employee);
+		final NhanVien emp = this.employeeRepository.save(employee);
 		 System.err.println(emp);
 		model.addAttribute("msgColour", "success");
 		model.addAttribute("msg", "Employee updated successfully!");
@@ -73,7 +75,7 @@ public class EmployeeController {
 
 	@GetMapping(value = {"/delete"})
 	public String handleEmployeeDelete(@RequestParam("id") final String id) {
-		this.employeeRepository.deleteById(Integer.parseInt(id));
+		this.employeeRepository.deleteById(id);
 		return "redirect:/app/employees/employees-list";
 	}
 }

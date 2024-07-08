@@ -5,6 +5,6 @@ import sushine_group.hrm_management_system.model.NhanVien;
 
 import java.util.Optional;
 
-public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
+public interface NhanVienRepository extends JpaRepository<NhanVien, String> {
     Optional<NhanVien> findById(String integer);
 }

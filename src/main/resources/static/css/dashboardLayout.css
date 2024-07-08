@@ -78,6 +78,7 @@ body {
 
 /* my-navbar */
 .my-navbar {
+    background-color: #fff;
     display: flex;
     position: fixed;
     height: 70px;
@@ -87,9 +88,8 @@ body {
     margin-left: 10px;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
     padding: 0 20px;
-    margin-top: 20px;
 }
 
 .my-navbar-left {  

@@ -1,12 +1,17 @@
 package sushine_group.hrm_management_system.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import sushine_group.hrm_management_system.model.KhoaDaoTao;
 import sushine_group.hrm_management_system.model.NhanVien;
@@ -17,6 +22,9 @@ import sushine_group.hrm_management_system.service.KhoaDaoTaoService;
 import jakarta.servlet.http.HttpSession;
 import sushine_group.hrm_management_system.service.UserService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -70,7 +78,14 @@ public class KhoaDaoTaoController {
         return "khoadaotao/khoaDaoTao-list"; // tên của file HTML template
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
+
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String showEditForm(@PathVariable("id") int id, Model model) {
         Optional<KhoaDaoTao> optionalKhoaDaoTao = khoaDaoTaoService.getKhoaDaoTaoById(id);
         if (optionalKhoaDaoTao.isPresent()) {
@@ -81,9 +96,52 @@ public class KhoaDaoTaoController {
         }
     }
 
+    @GetMapping("/add")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String addKhoaDaoTao(Model model) {
+        model.addAttribute("khoaDaoTao", new KhoaDaoTao()); // Tạo một đối tượng KhoaDaoTao mới
+        return "khoadaotao/khoaDaoTao-add";
+    }
+
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String editKhoaDaoTao(@PathVariable("id") int id,
+                                 @Valid @ModelAttribute("khoaDaoTao") KhoaDaoTao khoaDaoTao,
+                                 BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "khoaDaoTao/khoaDaoTao-edit"; // Nếu có lỗi, trả về form chỉnh sửa lại
+        }
+
+        khoaDaoTao.setId(id); // Đảm bảo ID của khoaDaoTao được thiết lập từ đường dẫn
+
+        khoaDaoTaoService.updateKhoaDaoTao(khoaDaoTao); // Lưu thông tin khoaDaoTao đã chỉnh sửa vào cơ sở dữ liệu
+
+        return "redirect:/khoaDaoTaos"; // Sau khi chỉnh sửa thành công, chuyển hướng về danh sách khoaDaoTaos
+    }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String addKhoaDaoTao(@Valid @ModelAttribute("khoaDaoTao") KhoaDaoTao khoaDaoTao,
+                                BindingResult bindingResult, Model model) throws ParseException {
+        if (bindingResult.hasErrors()) {
+            System.out.print(bindingResult);
+            return "khoadaotao/khoaDaoTao-add"; // Nếu có lỗi, trả về form thêm mới lại
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        khoaDaoTao.setNgayBatDau(dateFormat.parse(khoaDaoTao.getNgayBatDau().toString()));
+        khoaDaoTao.setNgayKetThuc(dateFormat.parse(khoaDaoTao.getNgayKetThuc().toString()));
+        khoaDaoTaoService.saveKhoaDaoTao(khoaDaoTao); // Lưu thông tin khoaDaoTao mới vào cơ sở dữ liệu
+
+        return "redirect:/khoaDaoTaos"; // Sau khi thêm mới thành công, chuyển hướng về danh sách khoaDaoTaos
+    }
+
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String deleteKhoaDaoTao(@PathVariable("id") int id) {
         khoaDaoTaoService.deleteKhoaDaoTaoById(id);
         return "redirect:/khoaDaoTaos";
     }
+
+
 }

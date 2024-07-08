@@ -18,6 +18,7 @@ import sushine_group.hrm_management_system.model.User;
 import sushine_group.hrm_management_system.repository.IRoleRepository;
 import sushine_group.hrm_management_system.repository.IUserRepository;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 @Slf4j
@@ -42,6 +43,10 @@ public class UserService implements UserDetailsService {
         String encodedPassword = new BCryptPasswordEncoder().encode(userDto.getPassword());
         user.setPassword(encodedPassword);
 
+        userRepository.save(user);
+    }
+
+    public void save(User user) {
         userRepository.save(user);
     }
 
@@ -70,6 +75,7 @@ public class UserService implements UserDetailsService {
                 .disabled(!user.isEnabled())
                 .build();
     }
+
     // Tìm kiếm người dùng dựa trên tên đăng nhập.
     public Optional<User> findByUsername(String username) throws
             UsernameNotFoundException {
@@ -86,5 +92,34 @@ public class UserService implements UserDetailsService {
         String nhanVienId = (String) session.getAttribute("nhanVienId");
         System.out.println("NhanVienId from session: " + nhanVienId);  // Ghi log
         return nhanVienId;
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+    public void updateUser(Long id, User userDetails) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+
+        existingUser.setUsername(userDetails.getUsername());
+        existingUser.setEmail(userDetails.getEmail());
+        existingUser.setPhone(userDetails.getPhone());
+
+        if (!existingUser.getPassword().equals(userDetails.getPassword())) {
+            String encodedPassword = new BCryptPasswordEncoder().encode(userDetails.getPassword());
+            existingUser.setPassword(encodedPassword);
+        }
+
+        existingUser.setRoles(userDetails.getRoles());
+
+        userRepository.save(existingUser);
     }
 }

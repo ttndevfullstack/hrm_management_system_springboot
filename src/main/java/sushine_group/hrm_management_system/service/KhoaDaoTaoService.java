@@ -30,8 +30,22 @@ public class KhoaDaoTaoService {
     }
 
     // Thêm mới hoặc cập nhật thông tin khóa đào tạo
-    public KhoaDaoTao saveOrUpdateKhoaDaoTao(KhoaDaoTao khoaDaoTao) {
+    public KhoaDaoTao saveKhoaDaoTao(KhoaDaoTao khoaDaoTao) {
         return khoaDaoTaoRepository.save(khoaDaoTao);
+    }
+
+    public KhoaDaoTao updateKhoaDaoTao(KhoaDaoTao khoaDaoTao) {
+        KhoaDaoTao existingKhoaDaoTao = khoaDaoTaoRepository.findById(khoaDaoTao.getId()).orElse(null);
+        if (existingKhoaDaoTao != null) {
+            existingKhoaDaoTao.setTenKhoa(khoaDaoTao.getTenKhoa());
+            existingKhoaDaoTao.setMoTa(khoaDaoTao.getMoTa());
+            existingKhoaDaoTao.setDiaChi(khoaDaoTao.getDiaChi());
+            existingKhoaDaoTao.setNgayBatDau(khoaDaoTao.getNgayBatDau());
+            existingKhoaDaoTao.setNgayKetThuc(khoaDaoTao.getNgayKetThuc());
+            existingKhoaDaoTao.setNguoiHuongDan(khoaDaoTao.getNguoiHuongDan());
+            return khoaDaoTaoRepository.save(existingKhoaDaoTao);
+        }
+        return null;
     }
 
     // Xóa một khóa đào tạo theo ID
