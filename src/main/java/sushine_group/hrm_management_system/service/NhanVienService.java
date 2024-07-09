@@ -1,5 +1,6 @@
 package sushine_group.hrm_management_system.service;
 
+import sushine_group.hrm_management_system.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
