@@ -31,11 +31,9 @@ public class KhoaDaoTao {
     private String moTa;
 
     @Column(name = "NgayBatDau")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayBatDau;
 
     @Column(name = "NgayKetThuc")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayKetThuc;
 
     @Column(name = "NguoiHuongDan", length = 50)
