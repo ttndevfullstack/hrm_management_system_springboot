@@ -41,8 +41,8 @@
                     </span>
             </button>
             <ul id="setting-menu-dropdown" class="position-absolute dropdown-menu dropdown-menu-end dropdown-menu-lg-end" style="bottom: -90px; right: 0;">
-                <li id="dashboard-profile"><button class="dropdown-item" type="button">Thông tin cá nhân</button></li>
-                <li id="dashboard-logout"><button class="dropdown-item" type="button">Đăng xuất</button></li>
+                <li id="dashboard-profile"><a href="/profile" class="dropdown-item" type="button">Thông tin cá nhân</a></li>
+                <li id="dashboard-logout"><a href="/logout" class="dropdown-item" type="button">Đăng xuất</a></li>
             </ul>
         </div>
     </div>
@@ -55,8 +55,8 @@
             <div id="profile-content" class="profile-content">
                 <img src="~/assets/images/default-avatar.png" alt="Profile Image" class="profile-image">
                 <div class="profile-text">
-                    <span id="profile-name" class="text name">Tên</span>
-                    <span id="profile-job" class="text job">Vị trí CV</span>
+                    <span sec:authentication="name" id="profile-name" class="text name">Tên</span>
+                    <span id="profile-job" class="text job">Admin</span>
                 </div>
             </div>
         </div>

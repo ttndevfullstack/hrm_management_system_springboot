@@ -89,6 +89,7 @@ body {
     align-items: center;
     z-index: 100;
     padding: 0 20px;
+    margin-top: 20px;
 }
 
 .my-navbar-left {  
@@ -107,7 +108,6 @@ body {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-right: 34px;
 } 
 
 .my-navbar-left.search-input:hover
@@ -152,6 +152,7 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 1;
+    margin-left: 20px;
 }
 
 ::-webkit-scrollbar {
