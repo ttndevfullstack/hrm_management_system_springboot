@@ -7,4 +7,5 @@ import sushine_group.hrm_management_system.model.Role;
 @Repository
 public interface IRoleRepository extends JpaRepository<Role, Long> {
     Role findRoleById(Long id);
+    Role findRoleByName(String name);
 }

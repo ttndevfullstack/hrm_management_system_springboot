@@ -73,6 +73,7 @@ public class DepartmentController {
 		return "departments/departments-edit";
 	}
 
+
 	@GetMapping(value = {"/delete"})
 	public String handleDepartmentDelete(@RequestParam("id") final String id) {
 		this.departmentRepository.deleteById(Integer.parseInt(id));

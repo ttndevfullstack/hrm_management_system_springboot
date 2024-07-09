@@ -7,6 +7,6 @@ import sushine_group.hrm_management_system.model.User;
 import java.util.Optional;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, String> {
+public interface IUserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 }
