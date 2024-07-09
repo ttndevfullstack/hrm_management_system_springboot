@@ -26,11 +26,12 @@ public class ChamCong {
     @Column(name = "SoLanTre")
     private int soLanTre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
     @MapsId("idNV")
     @JoinColumn(name = "IDNV")
+    @ManyToOne(fetch = FetchType.LAZY)
     private NhanVien nhanVien;
-    @Override
+   /* @Override
     public String toString() {
         return "ChamCong{" +
                 "id=" + id +
@@ -39,5 +40,5 @@ public class ChamCong {
                 ", soNgayNghi=" + soNgayNghi +
                 ", soLanTre=" + soLanTre +
                 '}';
-    }
+    }*/
 }

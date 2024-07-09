@@ -20,7 +20,7 @@ public class ChamCongId implements Serializable {
     private int id;
     @Column(name = "IDNV", length = 10)
     private String idNV;
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -31,5 +31,5 @@ public class ChamCongId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, idNV);
-    }
+    }*/
 }
