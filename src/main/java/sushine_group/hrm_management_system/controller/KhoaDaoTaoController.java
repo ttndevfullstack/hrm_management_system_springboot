@@ -63,7 +63,8 @@ public class KhoaDaoTaoController {
         User currentUser = userService.getCurrentUser(); // Lấy người dùng hiện tại
         if (currentUser == null) {
             model.addAttribute("errors", List.of("Người dùng chưa đăng nhập"));
-            return "error/errorPage";
+//            return "error/errorPage";
+            return "users/login";
         }
 
         NhanVien nhanVien = currentUser.getNhanVien(); // Lấy NhanVien từ User

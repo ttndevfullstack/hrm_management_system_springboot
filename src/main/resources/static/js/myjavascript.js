@@ -18,15 +18,28 @@ $(document).ready(function () {
     EProfilePosition.textContent = positionName;
 });
 
+//$(document).ready(function () {
+//    const idnv = getUserCookie('IDNV');
+//    const url = `/Info/Display?id=${idnv}`;
+//    EProfile?.addEventListener("click", function () {
+//        window.location.href = url;
+//    })
+//    EProfileContent?.addEventListener("click", function () {
+//        window.location.href = url;
+//    })
+//});
+
 $(document).ready(function () {
     const idnv = getUserCookie('IDNV');
-    const url = `/Info/Display?id=${idnv}`;
+    const url = `/profile`;
+
     EProfile?.addEventListener("click", function () {
         window.location.href = url;
-    })
+    });
+
     EProfileContent?.addEventListener("click", function () {
         window.location.href = url;
-    })
+    });
 });
 
 ETogglePassword?.addEventListener("click", function () {

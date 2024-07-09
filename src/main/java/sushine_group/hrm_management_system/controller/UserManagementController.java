@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import sushine_group.hrm_management_system.model.Dtos.UserDto;
 import sushine_group.hrm_management_system.model.User;
 import sushine_group.hrm_management_system.service.RoleService;
 import sushine_group.hrm_management_system.service.UserService;
@@ -36,13 +37,13 @@ public class UserManagementController {
 
     @GetMapping("/add")
     public String showAddUserForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDto());
         model.addAttribute("roles", roleService.findAll());
         return "users/user-add";
     }
 
     @PostMapping("/add")
-    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+    public String addUser(@Valid @ModelAttribute("user") UserDto user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
             return "users/user-add";
@@ -63,7 +64,7 @@ public class UserManagementController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateUser(@PathVariable Long id, @Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+    public String updateUser(@PathVariable Long id, @Valid @ModelAttribute("user") UserDto user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
             return "users/user-edit";

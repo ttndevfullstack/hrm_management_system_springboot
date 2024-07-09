@@ -3,6 +3,7 @@ package sushine_group.hrm_management_system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/chamcong")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class ChamCongController {
 
     @Autowired

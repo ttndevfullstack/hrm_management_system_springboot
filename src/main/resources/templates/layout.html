@@ -47,11 +47,11 @@
                 style="bottom: -90px; right: 0;">
                 <li id="dashboard-profile"><a href="/profile" class="dropdown-item" type="button">Thông tin cá nhân</a>
                 </li>
-                <li id="dashboard-logout"><a href="/logout" class="dropdown-item" type="button">Đăng xuất</a></li>
                 <li id="dashboard-accountManagement" sec:authorize="hasAuthority('ADMIN')"><a href="/admin/users"
                                                                                               class="dropdown-item"
                                                                                               type="button">Quản lý tài
                     khoản</a></li>
+                <li id="dashboard-logout"><a href="/logout" class="dropdown-item" type="button">Đăng xuất</a></li>
             </ul>
         </div>
     </div>
@@ -62,16 +62,16 @@
     <section>
         <div class="nav-link text-dark profile-detail" style="cursor: pointer;">
             <div id="profile-content" class="profile-content">
-                <img src="~/assets/images/default-avatar.png" alt="Profile Image" class="profile-image">
-                <div class="profile-text">
-                    <span sec:authentication="name" id="profile-name" class="text name">Tên</span>
-                    <span id="profile-job" class="text job">Admin</span>
+                <img src="/images/default-avatar.png" alt="Profile Image" class="profile-image">
+                <div class="profile-text" sec:authorize="isAuthenticated()">
+                    <span th:text="${#authentication.name}"></span>
+                    <span th:text="${#authentication.authorities}"></span>
                 </div>
             </div>
         </div>
         <div>
             <a class="dashboard">
-                <img src="~/assets/images/dashboard_FILL.png">
+                <img src="/images/dashboard_FILL.png">
                 <span class="dash-text">Dashboard</span>
             </a>
         </div>
@@ -84,7 +84,7 @@
                 <!-- Cham cong -->
                 <div class="side-title text">Chấm công</div>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 event_available
@@ -93,7 +93,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 work_history
@@ -102,7 +102,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/chamcong/list">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 calendar_month
@@ -111,7 +111,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 free_cancellation
@@ -123,7 +123,7 @@
                 <!-- Nghi phep va Vang -->
                 <div class="side-title text">Nghỉ phép & Vắng</div>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 fingerprint_off
@@ -132,7 +132,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 event_busy
@@ -141,7 +141,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 assignment_late
@@ -149,8 +149,8 @@
                         <span class="links-name text">Đóng cửa kinh doanh</span>
                     </a>
                 </li>
-                <li class="task-name">
-                    <a href="/">
+                <li class="task-name" >
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 early_on
@@ -160,9 +160,10 @@
                 </li>
 
                 <!-- Tuyen dung -->
+                <div sec:authorize="hasAuthority('ADMIN')">
                 <div class="side-title text">Tuyển dụng</div>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 photo_auto_merge
@@ -171,7 +172,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 work
@@ -180,7 +181,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
 
                         <span class="icons material-symbols-outlined">
@@ -190,7 +191,7 @@
                     </a>
                 </li>
                 <li class="task-name">
-                    <a href="/">
+                    <a href="/devFunc">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 gavel
@@ -198,123 +199,139 @@
                         <span class="links-name text">Điều khoản</span>
                     </a>
                 </li>
-
+                </div>
                 <!-- Quan ly -->
-                <div class="side-title text">Quản lý</div>
-                <li class="task-name">
-                    <a id="emps">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <div class="side-title text">Quản lý</div>
+                    <li class="task-name">
+                        <a id="emps" href="/nhanvien">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 badge
                             </span>
-                        <span class="links-name text">Nhân sự</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
-                                gavel
-                            </span>
-                        <span class="links-name text">Điều khoản lao động</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
+                            <span class="links-name text">Nhân sự</span>
+                        </a>
+                    </li>
+
+                    <li class="task-name">
+                    <a href="/phongban">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
                                 folder_managed
                             </span>
-                        <span class="links-name text">Thay đổi dữ liệu</span>
+                        <span class="links-name text">Phòng ban</span>
                     </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                    </li>
+
+                    <li class="task-name">
+                        <a href="/khoaDaoTaos">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 feedback
                             </span><i class='bx bx-timer'></i>
-                        <span class="links-name text">Biện pháp kỷ luật</span>
-                    </a>
-                </li>
+                            <span class="links-name text">Khóa đào tạo</span>
+                        </a>
+                    </li>
 
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
+                                gavel
+                            </span>
+                            <span class="links-name text">Điều khoản lao động</span>
+                        </a>
+                    </li>
+
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
+                                feedback
+                            </span><i class='bx bx-timer'></i>
+                            <span class="links-name text">Biện pháp kỷ luật</span>
+                        </a>
+                    </li>
+
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 personal_injury
                             </span>
-                        <span class="links-name text">Tai nạn lao động</span>
-                    </a>
-                </li>
+                            <span class="links-name text">Tai nạn lao động</span>
+                        </a>
+                    </li>
 
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 lab_profile
                             </span>
-                        <span class="links-name text">Bệnh án</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Bệnh án</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 workspace_premium
                             </span>
-                        <span class="links-name text">Chứng nhận</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Chứng nhận</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 rule
                             </span>
-                        <span class="links-name text">Bài tập quy trình</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Bài tập quy trình</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 circles_ext
                             </span>
-                        <span class="links-name text">Vị trí</span>
-                    </a>
-                </li>
-                <!-- Quan ly -->
-                <div class="side-title text">Chi quỹ</div>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Vị trí</span>
+                        </a>
+                    </li>
+                </div>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <!-- Quan ly -->
+                    <div class="side-title text">Chi quỹ</div>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 paid
                             </span>
-                        <span class="links-name text">Lương thưởng</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
+                            <span class="links-name text">Lương thưởng</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
 
-                        <span class="icons material-symbols-outlined">
+                            <span class="icons material-symbols-outlined">
                                 price_check
                             </span>
-                        <span class="links-name text">Thanh toán</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Thanh toán</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 query_stats
                             </span>
-                        <span class="links-name text">Tóm tắt thanh toán</span>
-                    </a>
-                </li>
-
+                            <span class="links-name text">Tóm tắt thanh toán</span>
+                        </a>
+                    </li>
+                </div>
             </ul>
         </div>
     </div>
