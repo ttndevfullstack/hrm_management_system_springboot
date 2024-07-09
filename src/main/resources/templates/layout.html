@@ -101,7 +101,7 @@
                         <span class="links-name text">Tóm tắt hằng ngày</span>
                     </a>
                 </li>
-                <li class="task-name">
+                <li class="task-name" sec:authorize="hasAuthority('ADMIN')">
                     <a href="/chamcong/list">
                         <div class="vertical-bar"></div>
                         <span class="icons material-symbols-outlined">
@@ -161,44 +161,44 @@
 
                 <!-- Tuyen dung -->
                 <div sec:authorize="hasAuthority('ADMIN')">
-                <div class="side-title text">Tuyển dụng</div>
-                <li class="task-name">
-                    <a href="/devFunc">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                    <div class="side-title text">Tuyển dụng</div>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 photo_auto_merge
                             </span>
-                        <span class="links-name text">Hồ sơ tuyển dụng</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/devFunc">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Hồ sơ tuyển dụng</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 work
                             </span>
-                        <span class="links-name text">Vị trí tuyển</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/devFunc">
-                        <div class="vertical-bar"></div>
+                            <span class="links-name text">Vị trí tuyển</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
 
-                        <span class="icons material-symbols-outlined">
+                            <span class="icons material-symbols-outlined">
                                 clinical_notes
                             </span>
-                        <span class="links-name text">Ứng viên</span>
-                    </a>
-                </li>
-                <li class="task-name">
-                    <a href="/devFunc">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                            <span class="links-name text">Ứng viên</span>
+                        </a>
+                    </li>
+                    <li class="task-name">
+                        <a href="/devFunc">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 gavel
                             </span>
-                        <span class="links-name text">Điều khoản</span>
-                    </a>
-                </li>
+                            <span class="links-name text">Điều khoản</span>
+                        </a>
+                    </li>
                 </div>
                 <!-- Quan ly -->
                 <div sec:authorize="hasAuthority('ADMIN')">
@@ -214,13 +214,13 @@
                     </li>
 
                     <li class="task-name">
-                    <a href="/phongban">
-                        <div class="vertical-bar"></div>
-                        <span class="icons material-symbols-outlined">
+                        <a href="/phongban">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
                                 folder_managed
                             </span>
-                        <span class="links-name text">Phòng ban</span>
-                    </a>
+                            <span class="links-name text">Phòng ban</span>
+                        </a>
                     </li>
 
                     <li class="task-name">
@@ -304,7 +304,7 @@
                     <!-- Quan ly -->
                     <div class="side-title text">Chi quỹ</div>
                     <li class="task-name">
-                        <a href="/devFunc">
+                        <a href="/luong/danhsach">
                             <div class="vertical-bar"></div>
                             <span class="icons material-symbols-outlined">
                                 paid
@@ -329,6 +329,19 @@
                                 query_stats
                             </span>
                             <span class="links-name text">Tóm tắt thanh toán</span>
+                        </a>
+                    </li>
+                </div>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <!-- Quan ly -->
+                    <div class="side-title text">Chức năng khác</div>
+                    <li class="task-name">
+                        <a href="/resume">
+                            <div class="vertical-bar"></div>
+                            <span class="icons material-symbols-outlined">
+                                paid
+                            </span>
+                            <span class="links-name text">Phân loại CV</span>
                         </a>
                     </li>
                 </div>
