@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Edit Employee</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        .glass-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .image-preview {
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 15px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Edit Employee</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <form th:action="@{/nhanvien/edit/{id}(id=${nhanVien.id})}" th:object="${nhanVien}" method="post"
+                  class="needs-validation" enctype="multipart/form-data" novalidate>
+                <div class="mb-3">
+                    <label for="hoDem" class="form-label">Họ Đệm:</label>
+                    <input type="text" th:field="*{hoDem}" class="form-control" id="hoDem" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('hoDem')}" th:errors="*{hoDem}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="ten" class="form-label">Tên:</label>
+                    <input type="text" th:field="*{ten}" class="form-control" id="ten" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="ngaySinh" class="form-label">Ngày Sinh:</label>
+                    <input type="date" th:field="*{ngaySinh}" class="form-control" id="ngaySinh" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('ngaySinh')}" th:errors="*{ngaySinh}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="gioiTinh" class="form-label">Giới Tính:</label>
+                    <select th:field="*{gioiTinh}" class="form-control" id="gioiTinh">
+                        <option value="true" th:selected="*{gioiTinh == true}">Nam</option>
+                        <option value="false" th:selected="*{gioiTinh == false}">Nữ</option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('gioiTinh')}" th:errors="*{gioiTinh}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="cccd" class="form-label">CCCD:</label>
+                    <input type="text" th:field="*{cccd}" class="form-control" id="cccd" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('cccd')}" th:errors="*{cccd}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="diaChi" class="form-label">Địa Chỉ:</label>
+                    <input type="text" th:field="*{diaChi}" class="form-control" id="diaChi" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('diaChi')}" th:errors="*{diaChi}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="sdt" class="form-label">Số Điện Thoại:</label>
+                    <input type="text" th:field="*{sdt}" class="form-control" id="sdt" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" th:field="*{email}" class="form-control" id="email" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="queQuan" class="form-label">Quê Quán:</label>
+                    <input type="text" th:field="*{queQuan}" class="form-control" id="queQuan" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('queQuan')}" th:errors="*{queQuan}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="ngayTuyenDung" class="form-label">Ngày Tuyển Dụng:</label>
+                    <input type="date" th:field="*{ngayTuyenDung}" class="form-control" id="ngayTuyenDung" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('ngayTuyenDung')}"
+                         th:errors="*{ngayTuyenDung}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="viTriCV" class="form-label">Vị Trí Công Việc:</label>
+                    <select th:field="*{viTriCV}" class="form-control" id="viTriCV">
+                        <option th:each="viTriCV : ${listViTriCV}" th:value="${viTriCV.id}"
+                                th:text="${viTriCV.tenVitri}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('viTriCV')}" th:errors="*{viTriCV}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="chucVu" class="form-label">Chức Vụ:</label>
+                    <select th:field="*{chucVu}" class="form-control" id="chucVu">
+                        <option th:each="chucVu : ${listChucVu}" th:value="${chucVu.id}"
+                                th:text="${chucVu.tenChucVu}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('chucVu')}" th:errors="*{chucVu}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="phongBan" class="form-label">Phòng Ban:</label>
+                    <select th:field="*{phongBan}" class="form-control" id="phongBan">
+                        <option th:each="phongBan : ${listPhongBan}" th:value="${phongBan.id}"
+                                th:text="${phongBan.tenPhongBan}"></option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('phongBan')}" th:errors="*{phongBan}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="anhProfile">Ảnh Profile:</label>
+                    <input class="form-control" type="file" id="anhProfile" name="anhProfile"
+                           accept="image/png, image/jpeg" onchange="previewImage(event)">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('anhProfile')}"
+                         th:errors="*{anhProfile}"></div>
+                    <img id="imagePreview" src="#" alt="Image Preview" class="image-preview" style="display: none;">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Employee</button>
+                <a th:href="@{/nhanvien}" class="btn btn-link">Cancel</a>
+            </form>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+</body>
+</html>

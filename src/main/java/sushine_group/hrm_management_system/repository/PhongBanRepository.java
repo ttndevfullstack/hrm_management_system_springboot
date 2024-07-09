@@ -5,12 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import sushine_group.hrm_management_system.model.NhanVien;
-
-import java.util.Optional;
+import sushine_group.hrm_management_system.model.PhongBan;
 
 @Repository
-public interface NhanVienRepository extends JpaRepository<NhanVien, String>, PagingAndSortingRepository<NhanVien, String> {
-    Optional<NhanVien> findById(String id);
-    Page<NhanVien> searchNhanVienByIdIgnoreCaseContaining(String keyword, Pageable pageable);
+public interface PhongBanRepository extends JpaRepository<PhongBan, Integer>, PagingAndSortingRepository<PhongBan, Integer> {
+    Page<PhongBan> findPhongBanByTenPhongBanIgnoreCaseContaining(String keyword, Pageable pageable);
+    PhongBan findByTenPhongBan(String tenPhongBan);
 }

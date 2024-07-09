@@ -26,6 +26,9 @@ public class ChucVu {
     @Column(name = "TenChucVu", length = 50)
     private String tenChucVu;
 
+    @Column(name = "LuongCoBan", precision = 18, scale = 2)
+    private BigDecimal luongCoBan;
+
     @Column(name = "PhuCapChucVu", precision = 18, scale = 2)
     private BigDecimal phuCapChucVu;
 
