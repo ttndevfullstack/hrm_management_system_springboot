@@ -209,22 +209,22 @@
 <section layout:fragment="content">
     <div class="container mt-4">
         <h2 class="mb-4">Danh sách Khóa Đào Tạo</h2>
-<!--            <div class="col-md-6 text-end">-->
-<!--                <div class="navbar-right">-->
-<!--                    <div sec:authorize="hasAuthority('ADMIN')">-->
-<!--                        <a class="btn btn-success" th:href="@{/khoaDaoTaos/add}">Thêm Nhân Viên Mới</a>-->
-<!--                    </div>-->
-<!--                    <div class="input-group" style="max-width: 300px;">-->
-<!--                        <form th:action="@{/khoaDaoTaos}" method="get" class="input-group">-->
-<!--                            <input type="text" class="form-control" placeholder="Tìm kiếm Khóa đào tạo..." aria-label="Tìm kiếm" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">-->
-<!--                            <button class="btn btn-outline-secondary" type="submit">Tìm</button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+        <!--            <div class="col-md-6 text-end">-->
+        <!--                <div class="navbar-right">-->
+        <!--                    <div sec:authorize="hasAuthority('ADMIN')">-->
+        <!--                        <a class="btn btn-success" th:href="@{/khoaDaoTaos/add}">Thêm Nhân Viên Mới</a>-->
+        <!--                    </div>-->
+        <!--                    <div class="input-group" style="max-width: 300px;">-->
+        <!--                        <form th:action="@{/khoaDaoTaos}" method="get" class="input-group">-->
+        <!--                            <input type="text" class="form-control" placeholder="Tìm kiếm Khóa đào tạo..." aria-label="Tìm kiếm" aria-describedby="basic-addon2" name="keyword" th:value="${keyword}">-->
+        <!--                            <button class="btn btn-outline-secondary" type="submit">Tìm</button>-->
+        <!--                        </form>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
         <div class="row mb-3">
             <div class="col-md-6" sec:authorize="hasAuthority('ADMIN')">
-                <a href="#" class="btn btn-primary">Thêm Khóa Đào Tạo</a>
+                <a href="/khoaDaoTaos/add" class="btn btn-primary">Thêm Khóa Đào Tạo</a>
             </div>
             <div class="col-md-6 text-end">
                 <form th:action="@{/khoaDaoTaos}" method="get" class="d-inline-block">
@@ -269,7 +269,7 @@
                     </div>
                     <form th:action="@{/khoaDaoTaos/delete/{id}(id=${khoa.id})}" method="post" class="d-inline-block"
                           sec:authorize="hasAuthority('ADMIN')">
-                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa Khóa đào tạo này?');">Xóa</button>
                     </form>
                 </td>
             </tr>

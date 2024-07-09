@@ -88,12 +88,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    public String getCurrentNhanVienId() {
-        String nhanVienId = (String) session.getAttribute("nhanVienId");
-        System.out.println("NhanVienId from session: " + nhanVienId);  // Ghi log
-        return nhanVienId;
-    }
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -105,14 +99,15 @@ public class UserService implements UserDetailsService {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
-    public void updateUser(Long id, User userDetails) {
+
+    public void updateUser(Long id, UserDto userDetails) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
         existingUser.setUsername(userDetails.getUsername());
         existingUser.setEmail(userDetails.getEmail());
         existingUser.setPhone(userDetails.getPhone());
-
+        existingUser.setProvider(getCurrentUser().getNhanVien().getId());
         if (!existingUser.getPassword().equals(userDetails.getPassword())) {
             String encodedPassword = new BCryptPasswordEncoder().encode(userDetails.getPassword());
             existingUser.setPassword(encodedPassword);

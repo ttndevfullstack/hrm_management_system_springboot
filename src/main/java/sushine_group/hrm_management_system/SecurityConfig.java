@@ -37,13 +37,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/images/**", "/css/**", "/js/**", "**.js", "/", "/oauth/**", "/register", "/error", "/cart", "/cart/**")
-                                .permitAll() // Cho phép truy cập không cần xác thực.
-                                .requestMatchers("/products/edit/**", "/products/add-product", "/products/delete", "khoaDaoTaos/**")
-                                .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
-                                .requestMatchers("/api/**")
-                                .permitAll() // API mở cho mọi người dùng.
-                                .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
+                        .requestMatchers("/images/**", "/css/**", "/js/**", "**.js", "/", "/oauth/**", "/register", "/error", "/cart", "/cart/**", "/home/**", "/login/**", "/logout/**")
+                        .permitAll() // Cho phép truy cập không cần xác thực.
+                        .requestMatchers("/khoaDaoTaos/edit/**", "/khoaDaoTaos/add-product", "/khoaDaoTaos/delete","/phongban/**", "/nhanvien/**", "/chamcong/**")
+                        .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
+                        .requestMatchers("/api/**", "/khoaDaoTaos")
+                        .permitAll() // API mở cho mọi người dùng.
+                        .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
