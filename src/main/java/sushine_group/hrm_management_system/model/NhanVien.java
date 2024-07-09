@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class NhanVien {
     @Column(name = "Ten", length = 20)
     private String ten;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "NgaySinh")
     private Date ngaySinh;
 
@@ -49,6 +51,7 @@ public class NhanVien {
     @Column(name = "QueQuan", length = 300)
     private String queQuan;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "NgayTuyenDung")
     private Date ngayTuyenDung;
 
@@ -67,39 +70,39 @@ public class NhanVien {
     @JoinColumn(name = "IDPhongBan")
     private PhongBan phongBan;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<TaiKhoan> taiKhoans;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<TKNganHang> tkNganHangs;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<BangCap> bangCaps;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<HopDong> hopDongs;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<BaoHiem> baoHiems;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<ChamCong> chamCongs;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<DaoTaoNhanVien> daoTaoNhanViens;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Luong> luongs;
 
-    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nhanVien", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<YeuCauNghiPhep> yeuCauNghiPheps;
 
