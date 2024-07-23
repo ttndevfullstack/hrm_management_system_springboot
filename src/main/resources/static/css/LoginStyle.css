@@ -30,7 +30,7 @@ body {
     text-align: left;
     width: 420px;
     background-color: #fdfdfd;
-    padding: 50px;
+    padding: 30px 50px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -42,12 +42,12 @@ body {
 
 .login-form p {
     text-align: center;
-    margin-bottom: 52px;
+    margin-bottom: 26px;
 }
 
 .login-form input {
     width: 100%;
-    padding: 14px 10px;
+    padding: 10px 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -72,7 +72,6 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin: 10px 0;
 }
 
 span.text-danger.field-validation-error {
@@ -97,13 +96,16 @@ span.text-danger.field-validation-error {
 }
 
 .login-with-others {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     text-align: center;
+    margin-top: 16px;
 }
 
 .login-with-others p {
-    margin-top: 48px;
-    margin-bottom: 20px;
+    margin-top: 22px;
+    margin-bottom: 10px;
 }
 
 .login-with-others a {

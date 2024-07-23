@@ -78,6 +78,7 @@ body {
 
 /* my-navbar */
 .my-navbar {
+    background-color: #fff;
     display: flex;
     position: fixed;
     height: 70px;
@@ -87,7 +88,7 @@ body {
     margin-left: 10px;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
     padding: 0 20px;
 }
 
@@ -107,7 +108,6 @@ body {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-right: 34px;
 } 
 
 .my-navbar-left.search-input:hover
@@ -152,6 +152,7 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 1;
+    margin-left: 20px;
 }
 
 ::-webkit-scrollbar {
